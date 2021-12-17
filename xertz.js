@@ -1,19 +1,19 @@
 const { Client, Intents, Collection, MessageEmbed } = require("discord.js");
 const client = new Client({intents: [Intents.FLAGS.GUILDS,Intents.FLAGS.GUILD_MEMBERS,Intents.FLAGS.GUILD_MESSAGES,Intents.FLAGS.DIRECT_MESSAGES]});
+const Discord = require("discord.js");
 const fs = require("fs");
 const db = require('quick.db');
+const ayarlar = require("./ayarlar.json");
 var moment = require("moment")
 require("moment-duration-format");
 moment.locale("tr");
-const token = ayarlar.token;
-const prefix = ayarlar.prefix;
 
 
 global.commands = new Collection();
-fs.readdir("./komutlar", (err, files) => {
+fs.readdir("./commands", (err, files) => {
     if (err) console.error(err);
     files.forEach(f => {
-        let props = require(`./komutlar/${f}`);
+        let props = require(`./commands/${f}`);
         global.commands.set(props.name, props);
         console.log(`Komut Yükleniyor: ${f}`)
     });
@@ -34,14 +34,9 @@ const kayıtkanal = db.get(`kayıtkanal`);
 const kayıtsızrol = db.get(`kayıtsızrol`);
 const jailrol = db.get(`jailrol`);
 
-
 client.on('ready', async () => {
-    console.log(`${client.user.tag} ismi ile giriş yapıldı.`)
-})
-client.login(token);
-
-  
-
+  console.log(`${client.user.tag} ismi ile giriş yapıldı.`);
+ });
 
 //-----------------------------------------------Komutlar------------------------------------------------\\
     
@@ -96,4 +91,6 @@ client.login(token);
   .setColor("RANDOM")
   kanal.send({content:`<@&${yetkirol}>`, embeds:[embed]})
     
-})
+  client.login(ayarlar.token);
+});
+
