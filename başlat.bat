@@ -1,5 +1,5 @@
 echo off
-title Register bot's code dev redston
+title Xertz Code Register
 color 0f
 cls
 :a
