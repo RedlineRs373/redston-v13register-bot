@@ -1,6 +1,6 @@
 const { MessageEmbed } = require('discord.js');
 const db = require('quick.db');
-const prefix = process.env.PREFIX;
+const prefix = process.prefix;
 exports.run = async (client, message, args) => {
 
     

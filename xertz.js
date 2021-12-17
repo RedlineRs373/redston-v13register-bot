@@ -8,12 +8,14 @@ var moment = require("moment")
 require("moment-duration-format");
 moment.locale("tr");
 
+var prefix = ayarlar.prefix;
+
 
 global.commands = new Collection();
-fs.readdir("./commands", (err, files) => {
+fs.readdir("./komutlar", (err, files) => {
     if (err) console.error(err);
     files.forEach(f => {
-        let props = require(`./commands/${f}`);
+        let props = require(`./komutlar/${f}`);
         global.commands.set(props.name, props);
         console.log(`Komut Yükleniyor: ${f}`)
     });
@@ -28,7 +30,6 @@ client.on('messageCreate', async message => {
     const cmd = global.commands.get(command);
     if(cmd) cmd.run(client, message, args);
 });
-
 const yetkirol = db.get(`yetkirol`);
 const kayıtkanal = db.get(`kayıtkanal`);
 const kayıtsızrol = db.get(`kayıtsızrol`);
@@ -36,7 +37,8 @@ const jailrol = db.get(`jailrol`);
 
 client.on('ready', async () => {
   console.log(`${client.user.tag} ismi ile giriş yapıldı.`);
- });
+})
+client.login(ayarlar.token);
 
 //-----------------------------------------------Komutlar------------------------------------------------\\
     
@@ -91,6 +93,4 @@ client.on('ready', async () => {
   .setColor("RANDOM")
   kanal.send({content:`<@&${yetkirol}>`, embeds:[embed]})
     
-  client.login(ayarlar.token);
 });
-
